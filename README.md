@@ -5,7 +5,8 @@
 
 
 ## Version 4.2.yz.24 (Current)
-- Modified shell `hqsh`
+- Modified shell `hqsh`.
+- Trying to add a new shell-ish shell `ush`.
 - Introduced basic command sets including:
   - Basic commands (echo, echoln)
   - Mind storage system
