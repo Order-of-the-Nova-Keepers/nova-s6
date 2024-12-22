@@ -1,6 +1,6 @@
-<p align="center" style="font-size:40px;">
+<h1 align="center" style="font-size:40px;">
  Nova-S6 (ISE) <br> Integrated Shell Environment
-</p>
+</h1>
 
 
 
