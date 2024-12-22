@@ -30,8 +30,62 @@ namespace nova_s6.shells.hqsh
 {
     public class emul
     {
+        private static Dictionary<string, string> macros = new Dictionary<string, string>();
+        private static string okayMacrosPath = Path.Combine(CommandEnv.UserHomeDir, "vin_env\\third_party\\nova\\hqsh\\macros\\okay_macros.json"); //Path.Combine(AppContext.BaseDirectory, "okay_macros.json");
+        private static string notOkayMacrosPath = Path.Combine(CommandEnv.UserHomeDir, "vin_env\\third_party\\nova\\hqsh\\macros\\not_okay_macros.json");  //Path.Combine(AppContext.BaseDirectory, "not_okay_macros.json");
+
+        public static void EnsureMacrosExist()
+        {
+            try
+            {
+                // Ensure the directory for macros exists
+                string macrosDirectory = Path.GetDirectoryName(okayMacrosPath);
+                if (!Directory.Exists(macrosDirectory))
+                {
+                    Directory.CreateDirectory(macrosDirectory);
+                    Console.WriteLine($"Directory created: {macrosDirectory}");
+                }
+
+                // Check and create the "okay_macros.json" file if not present
+                if (!File.Exists(okayMacrosPath))
+                {
+                    File.WriteAllText(okayMacrosPath, "{}"); // Empty JSON object
+                    Console.WriteLine($"File created: {okayMacrosPath}");
+                }
+
+                // Check and create the "not_okay_macros.json" file if not present
+                if (!File.Exists(notOkayMacrosPath))
+                {
+                    File.WriteAllText(notOkayMacrosPath, "{}"); // Empty JSON object
+                    Console.WriteLine($"File created: {notOkayMacrosPath}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error ensuring macro files exist: {ex.Message}");
+            }
+        }
+
         public static int ate(List<string> pcS)
         {
+            for (int i = 0; i < pcS.Count; i++)
+            {
+                if (macros.ContainsKey(pcS[i]))
+                {
+                    // Split the macro's value into a list and replace the current input with it
+                    var expandedMacro = macros[pcS[i]].Split(" ").ToList();
+
+                    // Remove the current macro key from pcS
+                    pcS.RemoveAt(i);
+
+                    // Insert the expanded macro at the same index
+                    pcS.InsertRange(i, expandedMacro);
+
+                    // Adjust the loop index to skip over the inserted elements
+                    i += expandedMacro.Count - 1;
+                }
+            }
+
             #region pre-processing
             if (pcS == null)
                 return 0;
@@ -63,6 +117,7 @@ namespace nova_s6.shells.hqsh
 
             pcS = parts;
             #endregion
+
 
             if (pcS[0].ToLower() == "echo")
             {
@@ -155,6 +210,8 @@ namespace nova_s6.shells.hqsh
                 }
             }
 
+
+
             else if (pcS[0].ToLower().StartsWith("$$"))
             {
                 if (pcS[0].ToLower().StartsWith("$$env"))
@@ -243,10 +300,102 @@ namespace nova_s6.shells.hqsh
                         errs.CacheClean();
                     }
                 }
-                else if (pcS[0].ToLower().StartsWith("$$env"))
+            }
+            else if (pcS[0].ToLower() == "macro")
+            {
+                LoadMacros();
+                if (pcS.Count < 2)
                 {
-
+                    Console.WriteLine("Usage: macro [add|remove|update|list|restore] [alias] [command]");
+                    return -1;
                 }
+
+                switch (pcS[1].ToLower())
+                {
+                    case "add":
+                        if (pcS.Count < 4)
+                        {
+                            Console.WriteLine("Usage: macro add <alias> <command>");
+                            return -1;
+                        }
+                        string newCommand = string.Join(" ", pcS.Skip(3));
+                        if (!macros.ContainsKey(pcS[2].ToLower()))
+                        {
+                            macros.Add(pcS[2].ToLower(), newCommand);
+                            SaveMacros(okayMacrosPath);
+                            Console.WriteLine($"Macro '{pcS[2]}' added successfully.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Macro '{pcS[2]}' already exists. Use 'macro update' to modify it.");
+                        }
+                        break;
+
+                    case "remove":
+                        if (pcS.Count < 3)
+                        {
+                            Console.WriteLine("Usage: macro remove <alias>");
+                            return -1;
+                        }
+                        if (macros.ContainsKey(pcS[2].ToLower()))
+                        {
+                            // Save to not_okay.json before removing
+                            var removedMacros = new Dictionary<string, string>
+                {
+                    { pcS[2].ToLower(), macros[pcS[2].ToLower()] }
+                };
+                            string json = JsonSerializer.Serialize(removedMacros, new JsonSerializerOptions { WriteIndented = true });
+                            File.AppendAllText(notOkayMacrosPath, json);
+
+                            macros.Remove(pcS[2].ToLower());
+                            SaveMacros(okayMacrosPath);
+                            Console.WriteLine($"Macro '{pcS[2]}' removed successfully.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Macro '{pcS[2]}' not found.");
+                        }
+                        break;
+
+                    case "update":
+                        if (pcS.Count < 4)
+                        {
+                            Console.WriteLine("Usage: macro update <alias> <new_command>");
+                            return -1;
+                        }
+                        string updatedCommand = string.Join(" ", pcS.Skip(3));
+                        if (macros.ContainsKey(pcS[2].ToLower()))
+                        {
+                            macros[pcS[2].ToLower()] = updatedCommand;
+                            SaveMacros(okayMacrosPath);
+                            Console.WriteLine($"Macro '{pcS[2]}' updated successfully.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Macro '{pcS[2]}' not found.");
+                        }
+                        break;
+
+                    case "list":
+                        if (macros.Count == 0)
+                        {
+                            Console.WriteLine("No macros defined.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Defined macros:");
+                            foreach (var macro in macros)
+                            {
+                                Console.WriteLine($"{macro.Key} => {macro.Value}");
+                            }
+                        }
+                        break;
+
+                    default:
+                        Console.WriteLine("Unknown macro command. Available commands: add, remove, update, list");
+                        break;
+                }
+                return 1;
             }
 
 
@@ -1141,7 +1290,7 @@ namespace nova_s6.shells.hqsh
             {
                 if (pcS.Count < 2)
                 {
-                    errs.New($"Usage: @cd <directory> - Change the current working directory.");
+                    errs.New($"Usage: cd <directory> - Change the current working directory.");
                     errs.ListThem();
                     errs.CacheClean();
                     return -1;
@@ -1196,6 +1345,8 @@ namespace nova_s6.shells.hqsh
                 }
             }
 
+
+
             else if (pcS[0].ToLower() == "help")
             {
                 List<string> help_lines = [
@@ -1211,7 +1362,15 @@ namespace nova_s6.shells.hqsh
                     "  reg>>get>>key            // Gets value for a key",
                     "  reg>>list                // Lists all registered key-value pairs",
                     " cd",
-                    "  cd <directory_path>",
+                    "  cd directory_path  // Changes the current-dir",
+                    " exit",
+                    "  exit // Exit the application",
+                    " macro",
+                    "  macro add alias command     // To add a new macro",
+                    "  macro remove alias command  // To remove a macro",
+                    "  macro update alias command  // To update an existing macro",
+                    "  macro list                  // To list all macros",
+                    "  macro restore               // To restore the deleted macros",
                   "\n$$:",
                     " $$env::variableName           // Gets value of specific variable",
                     " $$env>>variableName>>value    // Sets environment variable",
@@ -1278,7 +1437,10 @@ namespace nova_s6.shells.hqsh
                     Console.WriteLine(line);
                 }
             }
-
+            else if (pcS[0].ToLower() == "exit")
+            {
+                Environment.Exit(0);
+            }
             else
             {
                 errs.CacheClean();
@@ -1293,6 +1455,43 @@ namespace nova_s6.shells.hqsh
             return 1;
         }
 
+
+        // Add these macro-related functions
+        private static void LoadMacros()
+        {
+            try
+            {
+                if (File.Exists(okayMacrosPath))
+                {
+                    string json = File.ReadAllText(okayMacrosPath);
+                    macros = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading macros: {ex.Message}");
+                macros = new Dictionary<string, string>();
+            }
+        }
+
+        private static void SaveMacros(string path)
+        {
+            try
+            {
+                string json = JsonSerializer.Serialize(macros, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(path, json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving macros: {ex.Message}");
+            }
+        }
+
+
+        /// <summary>
+        ///  DATA ENCRYPTION AND DECRYPTION
+        /// </summary>
+        /// <returns></returns>
 
         private static byte[] GenerateRandomKey()
         {

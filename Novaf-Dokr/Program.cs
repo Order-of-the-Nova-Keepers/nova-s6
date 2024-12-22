@@ -124,6 +124,7 @@ namespace novaf
             CommandEnv.LoadEnvironmentVariables();
 
             master.conf.EnsureEnvironmentSetup();
+            nova_s6.shells.hqsh.emul.EnsureMacrosExist();
 
             //foreach (master.conf.ConfigurationData _cd in master._Conf_Files_List)
             //{
