@@ -249,6 +249,8 @@ namespace nova_s6.shells.hqsh
                 }
             }
 
+
+
             else if (pcS[0].ToLower() == "file")
             {
                 switch (pcS[1].ToLower())
@@ -1129,6 +1131,71 @@ namespace nova_s6.shells.hqsh
                 }
             }
 
+
+
+            else if (pcS[0].ToLower() == "pwd")
+            {
+                Console.WriteLine(CommandEnv.CurrentDirDest);
+            }
+            else if (pcS[0].ToLower() == "cd")
+            {
+                if (pcS.Count < 2)
+                {
+                    errs.New($"Usage: @cd <directory> - Change the current working directory.");
+                    errs.ListThem();
+                    errs.CacheClean();
+                    return -1;
+                }
+
+                string newDir = pcS[1];
+
+                try
+                {
+                    if (newDir == "..")
+                    {
+                        // Move up one directory level
+                        newDir = Path.GetDirectoryName(CommandEnv.CurrentDirDest);
+                    }
+                    else if (newDir == "~")
+                    {
+                        newDir = CommandEnv.UserHomeDir;
+                    }
+                    else if (!Path.IsPathRooted(newDir))
+                    {
+                        newDir = Path.Combine(CommandEnv.CurrentDirDest, newDir);
+                    }
+
+                    if (newDir == null)
+                    {
+                        errs.New($"Error: Cannot navigate above the root directory.");
+                        errs.ListThem();
+                        errs.CacheClean();
+                        return -1;
+                    }
+
+                    newDir = Path.GetFullPath(newDir);
+
+                    if (Directory.Exists(newDir))
+                    {
+                        CommandEnv.CurrentDirDest = newDir;
+                        Environment.CurrentDirectory = newDir;  // Ensure the process working directory is also updated
+                                                                //Console.WriteLine($"Changed directory to: {CurrentDirDest}");
+                    }
+                    else
+                    {
+                        errs.New($"Error: Directory '{newDir}' does not exist.");
+                        errs.ListThem();
+                        errs.CacheClean();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    errs.New($"Error: {ex.Message}");
+                    errs.ListThem();
+                    errs.CacheClean();
+                }
+            }
+
             else if (pcS[0].ToLower() == "help")
             {
                 List<string> help_lines = [
@@ -1140,22 +1207,24 @@ namespace nova_s6.shells.hqsh
                     "  mind -get 1                    // Gets item at index 1",
                     "  mind -list                     // Shows all stored items",
                     " reg      ==> to store something in RegisterStorage[string][string].",
-                    "  reg>>set>>key>>value    // Sets a key-value pair",
-                    "  reg>>get>>key          // Gets value for a key",
-                    "  reg>>list             // Lists all registered key-value pairs",
+                    "  reg>>set>>key>>value     // Sets a key-value pair",
+                    "  reg>>get>>key            // Gets value for a key",
+                    "  reg>>list                // Lists all registered key-value pairs",
+                    " cd",
+                    "  cd <directory_path>",
                   "\n$$:",
                     " $$env::variableName           // Gets value of specific variable",
-                    " $$env>>variableName>>value   // Sets environment variable",
-                    " $$env>>$all                  // Lists all environment variables",
-                    " $$env>>$rem>>variableName   // Removes environment variable",
+                    " $$env>>variableName>>value    // Sets environment variable",
+                    " $$env>>$all                   // Lists all environment variables",
+                    " $$env>>$rem>>variableName     // Removes environment variable",
                   "\nUtils:",
                     " File:",
-                    "  file create filename content    // Creates new file with content",
-                    "  file read filename             // Displays file content",
-                    "  file delete filename           // Deletes specified file",
-                    "  file append filename content   // Appends content to file",
-                    "  file rename oldname newname    // Renames file",
-                    "  file copy source destination   // Copies file",
+                    "  file create filename content  // Creates new file with content",
+                    "  file read filename            // Displays file content",
+                    "  file delete filename          // Deletes specified file",
+                    "  file append filename content  // Appends content to file",
+                    "  file rename oldname newname   // Renames file",
+                    "  file copy source destination  // Copies file",
                     "  file info filename            // Shows file information",
                     "  file exists filename          // Checks if file exists",
                     "  file lines-count filename     // Counts lines in file",
@@ -1164,23 +1233,23 @@ namespace nova_s6.shells.hqsh
                     "  file decrypt filename         // Decrypts file",
                     "  file compress filename        // Compresses file",
                     "  file decompress filename      // Decompresses file",
-                    "  file hash filename           // Generates SHA-256 hash",
-                    "  file watch filename          // Monitors file for changes",
-                    "  file temp [content]          // Creates temporary file",
+                    "  file hash filename            // Generates SHA-256 hash",
+                    "  file watch filename           // Monitors file for changes",
+                    "  file temp [content]           // Creates temporary file",
                     " Directory:",
                     "  dir create dirname            // Creates new directory",
-                    "  dir list dirname             // Lists directory contents",
-                    "  dir delete dirname           // Deletes directory",
-                    "  dir rename oldname newname   // Renames directory",
-                    "  dir exists dirname           // Checks if directory exists",
-                    "  dir info dirname            // Shows directory information",
-                    "  dir size dirname            // Calculates directory size",
-                    "  dir count-files dirname     // Counts files in directory",
-                    "  dir count-dirs dirname      // Counts subdirectories",
-                    "  dir backup dirname          // Creates directory backup",
-                    "  dir clean dirname           // Removes all contents",
-                    "  dir find dirname pattern    // Finds files matching pattern",
-                    "  dir monitor dirname         // Monitors directory changes",
+                    "  dir list dirname              // Lists directory contents",
+                    "  dir delete dirname            // Deletes directory",
+                    "  dir rename oldname newname    // Renames directory",
+                    "  dir exists dirname            // Checks if directory exists",
+                    "  dir info dirname              // Shows directory information",
+                    "  dir size dirname              // Calculates directory size",
+                    "  dir count-files dirname       // Counts files in directory",
+                    "  dir count-dirs dirname        // Counts subdirectories",
+                    "  dir backup dirname            // Creates directory backup",
+                    "  dir clean dirname             // Removes all contents",
+                    "  dir find dirname pattern      // Finds files matching pattern",
+                    "  dir monitor dirname           // Monitors directory changes",
                     " Network:",
                     "  net tcp-connect hostname port [message]      // Establishes TCP connection to a host and port",
                     "  net tcp-server port                          // Creates a TCP server on the specified port",
