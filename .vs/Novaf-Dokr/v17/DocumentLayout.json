@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "G:\\s-cat\\fri3nds\\v-category-projects\\Developer-Grade-Virtual-OS\\Novs-S6-repo\\nova-s6\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6CE388E6-19A6-4DAF-86F2-875C635E71E2}|Novaf-Dokr\\Novaf-Dokr.csproj|g:\\s-cat\\fri3nds\\v-category-projects\\developer-grade-virtual-os\\novs-s6-repo\\nova-s6\\novaf-dokr\\nova-s6\\shells\\hqsh\\emul.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CE388E6-19A6-4DAF-86F2-875C635E71E2}|Novaf-Dokr\\Novaf-Dokr.csproj|solutionrelative:novaf-dokr\\nova-s6\\shells\\hqsh\\emul.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6CE388E6-19A6-4DAF-86F2-875C635E71E2}|Novaf-Dokr\\Novaf-Dokr.csproj|g:\\s-cat\\fri3nds\\v-category-projects\\developer-grade-virtual-os\\novs-s6-repo\\nova-s6\\novaf-dokr\\nova-s6\\shells\\ush\\emul.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CE388E6-19A6-4DAF-86F2-875C635E71E2}|Novaf-Dokr\\Novaf-Dokr.csproj|solutionrelative:novaf-dokr\\nova-s6\\shells\\ush\\emul.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6CE388E6-19A6-4DAF-86F2-875C635E71E2}|Novaf-Dokr\\Novaf-Dokr.csproj|g:\\s-cat\\fri3nds\\v-category-projects\\developer-grade-virtual-os\\novs-s6-repo\\nova-s6\\novaf-dokr\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -24,13 +24,13 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "emul.cs",
-              "DocumentMoniker": "G:\\s-cat\\fri3nds\\v-category-projects\\Developer-Grade-Virtual-OS\\Novs-S6-repo\\nova-s6\\Novaf-Dokr\\nova-s6\\shells\\hqsh\\emul.cs",
-              "RelativeDocumentMoniker": "Novaf-Dokr\\nova-s6\\shells\\hqsh\\emul.cs",
-              "ToolTip": "G:\\s-cat\\fri3nds\\v-category-projects\\Developer-Grade-Virtual-OS\\Novs-S6-repo\\nova-s6\\Novaf-Dokr\\nova-s6\\shells\\hqsh\\emul.cs",
-              "RelativeToolTip": "Novaf-Dokr\\nova-s6\\shells\\hqsh\\emul.cs",
-              "ViewState": "AQIAANMAAAAAAAAAAAAkwFQFAABGAAAA",
+              "DocumentMoniker": "G:\\s-cat\\fri3nds\\v-category-projects\\Developer-Grade-Virtual-OS\\Novs-S6-repo\\nova-s6\\Novaf-Dokr\\nova-s6\\shells\\ush\\emul.cs",
+              "RelativeDocumentMoniker": "Novaf-Dokr\\nova-s6\\shells\\ush\\emul.cs",
+              "ToolTip": "G:\\s-cat\\fri3nds\\v-category-projects\\Developer-Grade-Virtual-OS\\Novs-S6-repo\\nova-s6\\Novaf-Dokr\\nova-s6\\shells\\ush\\emul.cs",
+              "RelativeToolTip": "Novaf-Dokr\\nova-s6\\shells\\ush\\emul.cs",
+              "ViewState": "AQIAAGYAAAAAAAAAAAAowHEAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-22T21:20:10.195Z",
+              "WhenOpened": "2024-12-22T22:28:39.211Z",
               "EditorCaption": ""
             },
             {
@@ -41,7 +41,7 @@
               "RelativeDocumentMoniker": "Novaf-Dokr\\Program.cs",
               "ToolTip": "G:\\s-cat\\fri3nds\\v-category-projects\\Developer-Grade-Virtual-OS\\Novs-S6-repo\\nova-s6\\Novaf-Dokr\\Program.cs",
               "RelativeToolTip": "Novaf-Dokr\\Program.cs",
-              "ViewState": "AQIAACIAAAAAAAAAAAAgwHoAAAAxAAAA",
+              "ViewState": "AQIAAPkAAAAAAAAAAAAuwMQAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-22T21:20:04.541Z",
               "EditorCaption": ""

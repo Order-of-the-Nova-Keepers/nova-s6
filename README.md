@@ -39,6 +39,14 @@ $$env::variableName           # Get value of specific variable
 $$env>>variableName>>value    # Set environment variable
 $$env>>$all                   # List all environment variables
 $$env>>$rem>>variableName     # Remove environment variable
+
+macro add alias command     # To add a new macro
+macro remove alias command  # To remove a macro
+macro update alias command  # To update an existing macro
+macro list                  # To list all macros
+macro restore               # To restore the deleted macros
+
+exit # To exit the application
 ```
 
 ## File Management Commands

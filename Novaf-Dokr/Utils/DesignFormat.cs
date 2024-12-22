@@ -158,38 +158,17 @@ namespace nova_s6.Utils
         public static void Banner()
         {
             Console.WriteLine($@"
-$$\   $$\                              $$$$$$$$\ 
-$$$\  $$ |                             $$  _____|
-$$$$\ $$ | $$$$$$\ $$\    $$\ $$$$$$\  $$ |      
-$$ $$\$$ |$$  __$$\\$$\  $$  |\____$$\ $$$$$\    
-$$ \$$$$ |$$ /  $$ |\$$\$$  / $$$$$$$ |$$  __|   
-$$ |\$$$ |$$ |  $$ | \$$$  / $$  __$$ |$$ |      
-$$ | \$$ |\$$$$$$  |  \$  /  \$$$$$$$ |$$ |      
-\__|  \__| \______/    \_/    \_______|\__|
+888888ba                                      .d88888b  .d8888P 
+88    `8b                                     88.    ""' 88'     
+88     88 .d8888b. dP   .dP .d8888b.          `Y88888b. 88baaa. 
+88     88 88'  `88 88   d8' 88'  `88 88888888       `8b 88` `88 
+88     88 88.  .88 88 .88'  88.  .88          d8'   .8P 8b. .d8 
+dP     dP `88888P' 8888P'   `88888P8           Y88888P  `Y888P'
 
 ╔══════════════════════════════╗ ╔═════════════════════════════════════════════════════════════════════════╗
-║ {Program.__shell__,-6} / {Program.__version__,-18}  ║ ║ Website: https://hmza-sfyn.github.io/ref/hmza/nas/index.html            ║ 
+║ {Program.__shell__,-6} / {Program.__version__,-18}  ║ ║ Website: https://blog.hmza.vercel.app/posts/nova-project/               ║ 
 ║ Author: hmZa-Sfyn            ║ ║ Github: https://github.com/hmZa-Sfyn                                    ║
-╚══════════════════════════════╝ ╚═════════════════════════════════════════════════════════════════════════╝                                                                                  
-                                   
-╔════════════════════════════════════════╗ [!] This software is provided ""as is"" without warranty of any kind, either express or implied,
-║ Legal Notice!                          ║ including but not limited to the warranties of merchantability, fitness for a particular purpose,
-║                                        ║ or non-infringement. hmZa and Novaf Corp do not warrant that the software will meet your requirements
-║ Acceptance of Terms:                   ║ or that its operation will be uninterrupted or error-free.
-║ By using this software, you agree to   ║
-║ comply with and be bound by the terms  ║ [!] You agree to indemnify, defend, and hold harmless hmZa and Novaf Corp from any claims, lo
-║ and conditions set forth in this legal ║ liabilities, damages, costs, or expenses (including reasonable attorneys' fees) arising out of or 
-║ notice. If you do not agree to these   ║ in connection with your use of this software.
-║ terms, please do not use this software.║ 
-║                                        ║ [!] This legal notice shall be governed by and construed in accordance with the laws of your government.
-║ License Grant:                         ║ Any disputes arising from this legal notice shall be subject to the exclusive jurisdiction of the courts
-║ This software is licensed to you, not  ║ located in your government.
-║ sold. You are granted a limited,       ║
-║ non-exclusive, non-transferable license║ [*] Have fun! 
-║ to use this software in accordance with║ 
-║ the terms of this legal notice.        ║ 
-╚════════════════════════════════════════╝
-
+╚══════════════════════════════╝ ╚═════════════════════════════════════════════════════════════════════════╝                                                                                                            
 ╔═══════════════════════════════════════╗
 ║ Help: type `help` for help message    ║ 
 ╚═══════════════════════════════════════╝

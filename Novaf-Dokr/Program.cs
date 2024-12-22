@@ -23,7 +23,7 @@ namespace novaf
 {
     public class Program
     {
-        public static string __version__ = "4.2.yz.24";
+        public static string __version__ = "4.3.za.24";
         public static string __shell__ = "hqsh";
         static void Main(string[] args)
         {
@@ -149,6 +149,14 @@ namespace novaf
                 Version = "27/11/2024"
             });
 
+            Shells.Add(new Shell
+            {
+                Num = 2,
+                Name = "ush",
+                Desc = "The specilized shell for somewhat m~b and for specilized legal act.",
+                Version = $""
+            });
+
             Console.WriteLine($"\n(*) sh: type: `!sh help` for `sh-help`.");
 
             try
@@ -173,11 +181,19 @@ namespace novaf
                             // The rest of your code
                             if (__shell__.ToLower() == "hsh")
                             {
-                                DesignFormat.TakeInput([$"\n{CommandEnv.CURRENT_USER_NAME}", "@", "kernal", ":>>", $"{CommandEnv.CurrentDirDest} ", $"{DesignFormat.get_shell_icon(__shell__)}"]);
-}
+                                DesignFormat.TakeInput([$"\n{CommandEnv.CURRENT_USER_NAME}", "@", "kernal", ":>>", $"{CommandEnv.CurrentDirDest} ", $"{DesignFormat.get_shell_icon(__shell__)} "]);
+                            }
                             else if (__shell__.ToLower() == "hqsh")
                             {
-                                DesignFormat.TakeInput([$"\n[{CommandEnv.CurrentDirDest}]", $"\n|---> [{DesignFormat.get_shell_icon(__shell__)}]-[{CommandEnv.CURRENT_USER_NAME}]", $"\n|---> "]);
+                                DesignFormat.TakeInput([$"\n[{CommandEnv.CurrentDirDest}]", $"-[{CommandEnv.CURRENT_USER_NAME}]", $"\n{DesignFormat.get_shell_icon(__shell__)} "]);
+                            }
+                            else if (__shell__.ToLower() == "ush")
+                            {
+                                DesignFormat.TakeInput([$"({CommandEnv.CURRENT_USER_NAME})", $" "]);
+                            }
+                            else
+                            {
+                                DesignFormat.TakeInput([$"\n{CommandEnv.CurrentDirDest}", $"\n{CommandEnv.CURRENT_USER_NAME}]", $"\n{DesignFormat.get_shell_icon(__shell__)}\n"]);
                             }
 
                             List<string> commands = UserInput.Prepare(UserInput.Input());
